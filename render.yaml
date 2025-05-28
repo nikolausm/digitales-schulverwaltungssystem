@@ -1,33 +1,45 @@
 services:
-  # Web Service
+  # Frontend - Blazor WebAssembly
   - type: web
-    name: schulverwaltung-web
-    runtime: docker
-    repo: https://github.com/nikolausm/digitales-schulverwaltungssystem
-    region: frankfurt
-    branch: main
-    dockerfilePath: ./Dockerfile
-    plan: free
+    name: schulverwaltung-frontend
+    env: static
+    buildCommand: cd src/Frontend/Web && dotnet publish -c Release -o out
+    staticPublishPath: src/Frontend/Web/out/wwwroot
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # Backend API - Homework Service
+  - type: web
+    name: schulverwaltung-api
+    env: docker
+    dockerfilePath: ./Dockerfile.api
+    healthCheckPath: /health
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: API_URL
-        value: https://schulverwaltung-api.onrender.com
-
-  # PostgreSQL Database
-  - type: pserv
-    name: schulverwaltung-db
-    runtime: docker
-    repo: https://github.com/nikolausm/digitales-schulverwaltungssystem
-    dockerfilePath: ./deploy/postgres.Dockerfile
-    plan: free
-    disk:
-      name: postgres-data
-      mountPath: /var/lib/postgresql/data
-    envVars:
-      - key: POSTGRES_DB
-        value: schulverwaltung
-      - key: POSTGRES_USER
-        value: schuladmin
-      - key: POSTGRES_PASSWORD
+      - key: DATABASE_URL
+        fromDatabase:
+          name: schulverwaltung-db
+          property: connectionString
+      - key: JWT_SECRET
         generateValue: true
+      - key: CORS_ORIGINS
+        value: https://schulverwaltung-frontend.onrender.com
+
+databases:
+  # PostgreSQL Datenbank
+  - name: schulverwaltung-db
+    plan: free
+    databaseName: schulverwaltung
+    user: schuladmin
+    ipAllowList: []
