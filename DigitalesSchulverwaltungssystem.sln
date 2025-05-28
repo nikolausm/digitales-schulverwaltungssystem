@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A6F6D4C4-6C52-4E2C-A8E5-7B8E8F5A5E5A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{8F7B5B5A-7D2E-4E5C-9A8B-1C2D3E4F5A6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{C9E8D7C6-5B4A-3F2E-1A9B-8C7D6E5F4A3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D2F1E0E9-8C7B-6A5D-4E3F-2B1A-9C8D7E6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8F7B5B5A-7D2E-4E5C-9A8B-1C2D3E4F5A6B} = {A6F6D4C4-6C52-4E2C-A8E5-7B8E8F5A5E5A}
+		{C9E8D7C6-5B4A-3F2E-1A9B-8C7D6E5F4A3B} = {A6F6D4C4-6C52-4E2C-A8E5-7B8E8F5A5E5A}
+	EndGlobalSection
+EndGlobal
