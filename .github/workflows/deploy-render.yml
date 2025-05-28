@@ -1,0 +1,77 @@
+name: Deploy to Render
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_type:
+        description: 'Deployment Type'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - frontend
+          - api
+          - both
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          # Install curl and jq
+          sudo apt-get update && sudo apt-get install -y curl jq
+          
+          # Get owner ID
+          OWNER_ID=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY" \
+            https://api.render.com/v1/owners | jq -r '.[0].owner.id')
+          
+          echo "Owner ID: $OWNER_ID"
+          
+          # Deploy Frontend
+          if [[ "${{ github.event.inputs.deploy_type }}" == "frontend" || "${{ github.event.inputs.deploy_type }}" == "both" ]]; then
+            echo "Deploying Frontend..."
+            curl -X POST https://api.render.com/v1/services \
+              -H "Authorization: Bearer $RENDER_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "type": "web_service",
+                "name": "schulverwaltung-frontend-'$(date +%s)'",
+                "ownerId": "'$OWNER_ID'",
+                "repo": "https://github.com/${{ github.repository }}",
+                "autoDeploy": "yes",
+                "branch": "main",
+                "serviceDetails": {
+                  "env": "docker",
+                  "dockerfilePath": "./Dockerfile.frontend",
+                  "region": "frankfurt",
+                  "plan": "free"
+                }
+              }'
+          fi
+          
+          # Deploy API
+          if [[ "${{ github.event.inputs.deploy_type }}" == "api" || "${{ github.event.inputs.deploy_type }}" == "both" ]]; then
+            echo "Deploying API..."
+            curl -X POST https://api.render.com/v1/services \
+              -H "Authorization: Bearer $RENDER_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "type": "web_service",
+                "name": "schulverwaltung-api-'$(date +%s)'",
+                "ownerId": "'$OWNER_ID'",
+                "repo": "https://github.com/${{ github.repository }}",
+                "autoDeploy": "yes",
+                "branch": "main",
+                "serviceDetails": {
+                  "env": "docker",
+                  "dockerfilePath": "./Dockerfile.api",
+                  "region": "frankfurt",
+                  "plan": "free"
+                }
+              }'
+          fi
