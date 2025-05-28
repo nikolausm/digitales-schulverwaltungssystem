@@ -1,7 +1,19 @@
 # Digitales Schulverwaltungssystem
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/nikolausm/digitales-schulverwaltungssystem)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/nikolausm/digitales-schulverwaltungssystem)
+
 ## 📚 Übersicht
 Webbasierte Plattform zur Schulverwaltung mit Fokus auf Hausaufgaben-Tracking, Lesepass und Terminverwaltung. Das System ersetzt WhatsApp-Gruppen für Hausaufgaben-Fragen und bietet eine zentrale, verlässliche Informationsquelle.
+
+## 🚀 One-Click Deployment
+
+### Sofort deployen:
+- **[Deploy to Render](https://render.com/deploy?repo=https://github.com/nikolausm/digitales-schulverwaltungssystem)** - Kostenlos mit Auto-Sleep
+- **[Deploy to Railway](https://railway.app/new/template?template=https://github.com/nikolausm/digitales-schulverwaltungssystem)** - $5 Credits/Monat
+- **[Deploy to Vercel](https://vercel.com/new/clone?repository-url=https://github.com/nikolausm/digitales-schulverwaltungssystem)** - Frontend Only
+
+### Oder besuchen Sie unser [🎯 Deployment Center](https://nikolausm.github.io/digitales-schulverwaltungssystem/)
 
 ## 🎯 Hauptfunktionen
 - **Hausaufgabenübersicht**: Zentrale Informationsquelle für alle Hausaufgaben
@@ -37,7 +49,7 @@ digitales-schulverwaltungssystem/
 ## 🚀 Quick Start
 ```bash
 # Repository klonen
-git clone https://github.com/[username]/digitales-schulverwaltungssystem.git
+git clone https://github.com/nikolausm/digitales-schulverwaltungssystem.git
 
 # Docker Container starten
 docker-compose up -d
