@@ -1,0 +1,33 @@
+services:
+  # Web Service
+  - type: web
+    name: schulverwaltung-web
+    runtime: docker
+    repo: https://github.com/nikolausm/digitales-schulverwaltungssystem
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: API_URL
+        value: https://schulverwaltung-api.onrender.com
+
+  # PostgreSQL Database
+  - type: pserv
+    name: schulverwaltung-db
+    runtime: docker
+    repo: https://github.com/nikolausm/digitales-schulverwaltungssystem
+    dockerfilePath: ./deploy/postgres.Dockerfile
+    plan: free
+    disk:
+      name: postgres-data
+      mountPath: /var/lib/postgresql/data
+    envVars:
+      - key: POSTGRES_DB
+        value: schulverwaltung
+      - key: POSTGRES_USER
+        value: schuladmin
+      - key: POSTGRES_PASSWORD
+        generateValue: true
