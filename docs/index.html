@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schulverwaltung - Deployment Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background: #f8f9fa; }
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .deploy-card { transition: all 0.3s; cursor: pointer; }
+        .deploy-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .step-number { width: 30px; height: 30px; background: #667eea; color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; }
+        .status-badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="hero py-5">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3">🚀 Deployment Center</h1>
+            <p class="lead">Digitales Schulverwaltungssystem - One-Click Deployment</p>
+            <div class="mt-4">
+                <span class="badge bg-success me-2">✓ Repository Ready</span>
+                <span class="badge bg-warning status-badge" id="deployment-status">Deployment Pending</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">🎯 Schnellstart - In 3 Minuten online!</h5>
+                        <p class="card-text">Wählen Sie Ihre bevorzugte Deployment-Plattform:</p>
+                    </div>
+                </div>
+
+                <!-- Render.com Option -->
+                <div class="card deploy-card mb-3" onclick="deployToRender()">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <img src="https://render.com/images/render-logo.svg" alt="Render" height="40">
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">Render.com</h5>
+                                <p class="mb-0 text-muted">Kostenlos • Auto-Deploy • PostgreSQL inklusive</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary">Deploy <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Railway Option -->
+                <div class="card deploy-card mb-3" onclick="deployToRailway()">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <img src="https://railway.app/brand/logo-light.svg" alt="Railway" height="40">
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">Railway</h5>
+                                <p class="mb-0 text-muted">$5 Credits/Monat • Kein Sleep-Mode • Schnell</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline-primary">Deploy <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vercel Option -->
+                <div class="card deploy-card mb-3" onclick="deployToVercel()">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <img src="https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png" alt="Vercel" height="40" width="40">
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">Vercel</h5>
+                                <p class="mb-0 text-muted">Frontend Only • Unbegrenzt kostenlos • CDN</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline-primary">Deploy <i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Setup -->
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h5 class="mb-0">📋 Manuelle Installation</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="step-number">1</span>
+                            <span class="ms-2">Repository klonen:</span>
+                            <pre class="mt-2 p-2 bg-light"><code>git clone https://github.com/nikolausm/digitales-schulverwaltungssystem.git</code></pre>
+                        </div>
+                        <div class="mb-3">
+                            <span class="step-number">2</span>
+                            <span class="ms-2">Docker starten:</span>
+                            <pre class="mt-2 p-2 bg-light"><code>docker-compose up -d</code></pre>
+                        </div>
+                        <div class="mb-3">
+                            <span class="step-number">3</span>
+                            <span class="ms-2">Öffnen Sie: <a href="http://localhost:8080" target="_blank">http://localhost:8080</a></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Section -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">📊 System Status</h5>
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <i class="bi bi-github fs-1"></i>
+                                <p class="mb-0">Repository</p>
+                                <span class="badge bg-success">Active</span>
+                            </div>
+                            <div class="col-md-4">
+                                <i class="bi bi-check-circle fs-1"></i>
+                                <p class="mb-0">Tests</p>
+                                <span class="badge bg-success">Passing</span>
+                            </div>
+                            <div class="col-md-4">
+                                <i class="bi bi-cloud fs-1"></i>
+                                <p class="mb-0">Deployment</p>
+                                <span class="badge bg-warning" id="deploy-badge">Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function deployToRender() {
+            const deployUrl = `https://render.com/deploy?repo=https://github.com/nikolausm/digitales-schulverwaltungssystem`;
+            window.open(deployUrl, '_blank');
+            updateStatus('Deploying to Render...');
+        }
+
+        function deployToRailway() {
+            const deployUrl = `https://railway.app/new/github/nikolausm/digitales-schulverwaltungssystem`;
+            window.open(deployUrl, '_blank');
+            updateStatus('Deploying to Railway...');
+        }
+
+        function deployToVercel() {
+            const deployUrl = `https://vercel.com/new/clone?repository-url=https://github.com/nikolausm/digitales-schulverwaltungssystem&project-name=schulverwaltung&repository-name=schulverwaltung`;
+            window.open(deployUrl, '_blank');
+            updateStatus('Deploying to Vercel...');
+        }
+
+        function updateStatus(message) {
+            document.getElementById('deployment-status').textContent = message;
+            document.getElementById('deployment-status').className = 'badge bg-info status-badge';
+            document.getElementById('deploy-badge').textContent = 'Deploying';
+            document.getElementById('deploy-badge').className = 'badge bg-info';
+        }
+
+        // Check deployment status
+        async function checkStatus() {
+            try {
+                const response = await fetch('https://api.github.com/repos/nikolausm/digitales-schulverwaltungssystem/actions/runs?per_page=1');
+                const data = await response.json();
+                if (data.workflow_runs && data.workflow_runs.length > 0) {
+                    const latestRun = data.workflow_runs[0];
+                    if (latestRun.status === 'completed' && latestRun.conclusion === 'success') {
+                        document.getElementById('deployment-status').textContent = 'Last Deploy: Success';
+                        document.getElementById('deployment-status').className = 'badge bg-success';
+                    }
+                }
+            } catch (error) {
+                console.error('Status check failed:', error);
+            }
+        }
+
+        // Check status on load
+        checkStatus();
+    </script>
+</body>
+</html>
