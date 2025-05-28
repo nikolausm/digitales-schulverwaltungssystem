@@ -1,16 +1,16 @@
 services:
-  # Frontend - Als Docker-basierter Service statt Static Site
+  # Alternative: Frontend als Node.js Static Server
   - type: web
-    name: schulverwaltung-frontend
-    env: docker
-    dockerfilePath: ./Dockerfile.frontend
-    healthCheckPath: /
+    name: schulverwaltung-simple
+    env: node
+    buildCommand: npm install -g serve
+    startCommand: serve -s src/Frontend/Web/wwwroot -l 10000
     envVars:
-      - key: PORT
-        value: 80
+      - key: NODE_VERSION
+        value: 18
     pullRequestPreviewsEnabled: true
 
-  # Backend API - Homework Service
+  # Backend API bleibt gleich
   - type: web
     name: schulverwaltung-api
     env: docker
@@ -25,11 +25,8 @@ services:
           property: connectionString
       - key: JWT_SECRET
         generateValue: true
-      - key: CORS_ORIGINS
-        value: https://schulverwaltung-frontend.onrender.com
 
 databases:
-  # PostgreSQL Datenbank
   - name: schulverwaltung-db
     plan: free
     databaseName: schulverwaltung
