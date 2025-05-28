@@ -1,0 +1,17 @@
+{
+  "name": "digitales-schulverwaltungssystem",
+  "services": [
+    {
+      "type": "web",
+      "name": "schulverwaltung-app",
+      "env": "docker",
+      "dockerfilePath": "./Dockerfile.frontend",
+      "envVars": [
+        {
+          "key": "PORT",
+          "value": "10000"
+        }
+      ]
+    }
+  ]
+}
